@@ -1,0 +1,9 @@
+plex:
+  container_name: plex
+  image: greensheep/plex-server-rpi
+  net: "host"
+  ports:
+   - 32400:32400
+  volumes:
+   - /home/pi/plex/config:/config
+   - /home/pi/plex/data:/data
