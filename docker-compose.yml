@@ -7,3 +7,12 @@ plex:
   volumes:
    - /home/pi/plex/config:/config
    - /home/pi/plex/data:/data
+
+nfs-server:
+  command: /data
+  container_name: nfs-server
+  build: ./nfs-server
+  net: "host"
+  privileged: true
+  volumes_from:
+   - plex
