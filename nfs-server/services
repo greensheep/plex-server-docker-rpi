@@ -1,0 +1,5 @@
+sunrpc 111/tcp  rpcbind # SUN Remote Procedure Call
+sunrpc 111/udp  rpcbind # SUN Remote Procedure Call
+nfs    2049/tcp
+nfs    2049/udp
+
