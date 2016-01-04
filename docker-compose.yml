@@ -1,6 +1,6 @@
 plex:
   container_name: plex
-  image: greensheep/plex-server-docker-rpi
+  image: greensheep/plex-server-docker-rpi:0.9.14.6
   net: "host"
   ports:
    - 32400:32400
