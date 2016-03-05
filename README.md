@@ -1,6 +1,8 @@
-# Plex Server for Raspberry Pi
+# Plex Server for Raspberry Pi 2
 
-A simple way to run a plex media server in Docker on the Raspberry Pi.
+A simple way to run a plex media server in Docker on the Raspberry Pi 2.
+
+NOTE: The Pi 1 is NOT supported.
 
 ## What's included
 
@@ -39,7 +41,7 @@ If you already started your server, run:
 
 ## Transcoding
 
-The pi (including the pi 2) isn't powerful enough for transcoding but if you have media that will direct play on your client it works great! I've only tested this on the pi 2.
+The Pi isn't powerful enough for transcoding but if you have media that will direct play on your client it works great! I've only tested this on the Pi 2.
 
 ## Development
 
