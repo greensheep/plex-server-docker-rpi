@@ -1,6 +1,6 @@
-# Plex Server for Raspberry Pi 2
+# Plex Server for Raspberry Pi
 
-A simple way to run a plex media server in Docker on the Raspberry Pi 2.
+A simple way to run a plex media server in Docker on the Raspberry Pi 2 or 3.
 
 NOTE: The Pi 1 is NOT supported.
 
@@ -11,7 +11,9 @@ NOTE: The Pi 1 is NOT supported.
 
 ## Usage
 
-Install [Hypriot OS](http://blog.hypriot.com/downloads) onto your SD card and boot up the Pi.  Identify the Pi on your network and SSH in with the following credentials: User: `pi` / password: `raspberry`
+The easiest way to get started is to install [Hypriot OS](http://blog.hypriot.com/downloads) onto your SD card because it comes with docker & docker-compose pre-installed. It's also possible to use the [ARM version of Arch Linux](https://archlinuxarm.org/platforms/armv7/broadcom/raspberry-pi-2) but you'll need to install and configure these packages yourself.
+
+Assuming Hypriot OS, boot up the Pi, identify it on your network and SSH in with the following credentials: User: `pi` / password: `raspberry`
 
 Next, clone this repo and bring the services up using docker-compose:
 
@@ -41,7 +43,7 @@ If you already started your server, run:
 
 ## Transcoding
 
-The Pi isn't powerful enough for transcoding but if you have media that will direct play on your client it works great! I've only tested this on the Pi 2.
+The Pi isn't powerful enough for transcoding but if you have media that will direct play on your client it works great! I've tested this on the Pi 2 (Hypriot) and 3 (Arch).
 
 ## Development
 
