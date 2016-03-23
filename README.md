@@ -45,6 +45,16 @@ If you already started your server, run:
 
 The Pi isn't powerful enough for transcoding but if you have media that will direct play on your client it works great! I've tested this on the Pi 2 (Hypriot) and 3 (Arch).
 
+## Playback failures
+
+If you experience problems with media that should direct play/stream to your client, and you mounted an external drive to `/home/pi/plex/data`, try setting the "Transcoder temporary directory" to a path on the mounted `/data` volume. For example, do:
+
+    mkdir /home/pi/plex/data/transcoder
+
+Then add `/data/transcoder` to `Settings -> Server -> Transcoder -> Transcoder temporary directory` in the Plex admin.
+    
+Why? Most of the time your SD card will be realtively small 16/32Gb and can quickly run out of space. According to [this forum post](https://forums.plex.tv/discussion/206281/there-was-a-problem-playing-this-item), the lack of available space can cause transcoder problems.
+
 ## Development
 
 To build the images yourself, use the `docker-compose.dev.yml` file:
