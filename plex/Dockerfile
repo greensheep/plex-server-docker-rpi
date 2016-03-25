@@ -1,4 +1,4 @@
-FROM resin/rpi-raspbian:jessie
+FROM sedden/rpi-raspbian-qemu:jessie
 
 # Dependencies
 RUN apt-get update \

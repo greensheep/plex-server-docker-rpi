@@ -1,5 +1,7 @@
 # Plex Server for Raspberry Pi
 
+[![Build Status](https://travis-ci.org/sedden/plex-server-docker-rpi.svg?branch=master)](https://travis-ci.org/sedden/plex-server-docker-rpi)
+
 A simple way to run a plex media server in Docker on the Raspberry Pi 2 or 3.
 
 NOTE: The Pi 1 is NOT supported.
@@ -52,7 +54,7 @@ If you experience problems with media that should direct play/stream to your cli
     mkdir /home/pi/plex/data/transcoder
 
 Then add `/data/transcoder` to `Settings -> Server -> Transcoder -> Transcoder temporary directory` in the Plex admin.
-    
+
 Why? Most of the time your SD card will be realtively small 16/32Gb and can quickly run out of space. According to [this forum post](https://forums.plex.tv/discussion/206281/there-was-a-problem-playing-this-item), the lack of available space can cause transcoder problems.
 
 ## Development

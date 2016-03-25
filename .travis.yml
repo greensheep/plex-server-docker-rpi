@@ -1,0 +1,21 @@
+sudo: required
+
+services:
+  - docker
+
+install: true
+
+before_script:
+  - sudo apt-get --yes --no-install-recommends install binfmt-support qemu-user-static
+  - echo ':arm:M::\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x28\x00:\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff:/usr/bin/qemu-arm-static:' | sudo tee -a /proc/sys/fs/binfmt_misc/register
+
+script:
+  - docker build -t sedden/plex-server-docker-rpi:latest plex
+
+after_success: |
+  if [ -n "${DOCKER_EMAIL}" ] && [ -n "${DOCKER_TOKEN}" ] && [ "${TRAVIS_PULL_REQUEST}" = 'false' ]
+  then
+    mkdir -p $HOME/.docker
+    echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"${DOCKER_TOKEN}\",\"email\":\"${DOCKER_EMAIL}\"}}}" > $HOME/.docker/config.json
+    docker push sedden/plex-server-docker-rpi:latest || exit 1
+  fi
