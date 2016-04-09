@@ -10,7 +10,7 @@ RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen \
  && locale-gen
 
 # Download/extract Plex ALPINE-ARMV7
-ENV PLEX_VERSION=0.9.16.3.1840-cece46d PLEX_PATH=/opt/plex/Application
+ENV PLEX_VERSION=0.9.16.4.1911-ee6e505 PLEX_PATH=/opt/plex/Application
 RUN mkdir -p ${PLEX_PATH} /tmp/plex \
  && cd ${PLEX_PATH} \
  && wget --no-verbose -O /tmp/plex/plex.tar https://downloads.plex.tv/plex-media-server/${PLEX_VERSION}/PlexMediaServer-${PLEX_VERSION}-neon-armv7.spk \
