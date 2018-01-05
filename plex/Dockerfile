@@ -13,7 +13,6 @@ RUN mkdir -p /usr/share/locale/ \
   && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /usr/share/locale/locale.alias \
   && locale-gen
 
-
 # Download/extract Plex ALPINE-ARMV7
 ENV PLEX_VERSION=1.11.0.4666-fc63598ba PLEX_PATH=/opt/plex/Application
 RUN mkdir -p ${PLEX_PATH} /tmp/plex \
@@ -34,10 +33,12 @@ ENV HOME=/config
 # Plex server port
 EXPOSE 32400
 
+WORKDIR ${PLEX_PATH}
+RUN mv Resources/start.sh .
+
 # Add a line to the Plex start.sh script to remove any
 # previous pid file found in the config dir. Plex wont
 # start if this file is left over from a previous run.
-RUN sed -i '2i rm -rf /config/Library/Application\\ Support/Plex\\ Media\\ Server/plexmediaserver.pid' ${PLEX_PATH}/Resources/start.sh
+RUN sed -i '2i rm -rf /config/Library/Application\\ Support/Plex\\ Media\\ Server/plexmediaserver.pid' ${PLEX_PATH}/start.sh
 
-WORKDIR ${PLEX_PATH}
-CMD ["bash", "Resources/start.sh"]
+CMD ["bash", "start.sh"]
