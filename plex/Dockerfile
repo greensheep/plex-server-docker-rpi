@@ -2,25 +2,21 @@ FROM resin/rpi-raspbian:jessie
 
 # Dependencies
 RUN apt-get update \
-  && apt-get upgrade \
-  && apt-get install apt-utils -y \
-  && apt-get install locales wget ca-certificates -y
+ && apt-get upgrade \
+ && apt-get install locales wget ca-certificates -y
 
 # Setup locales
-RUN mkdir -p /usr/share/locale/ \
-  && touch /usr/share/locale/locale.alias \
-  && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen \
-  && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /usr/share/locale/locale.alias \
-  && locale-gen
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen \
+ && locale-gen
 
 # Download/extract Plex ALPINE-ARMV7
 ENV PLEX_VERSION=1.11.0.4666-fc63598ba PLEX_PATH=/opt/plex/Application
 RUN mkdir -p ${PLEX_PATH} /tmp/plex \
-  && cd ${PLEX_PATH} \
-  && wget --no-verbose -O /tmp/plex/plex.tar https://downloads.plex.tv/plex-media-server/${PLEX_VERSION}/PlexMediaServer-${PLEX_VERSION}-arm7.spk \
-  && tar -xvf /tmp/plex/plex.tar -C /tmp/plex \
-  && tar -xvf /tmp/plex/package.tgz -C ${PLEX_PATH} \
-  && rm -rf /tmp/plex
+ && cd ${PLEX_PATH} \
+ && wget --no-verbose -O /tmp/plex/plex.tar https://downloads.plex.tv/plex-media-server/${PLEX_VERSION}/PlexMediaServer-${PLEX_VERSION}-arm7.spk \
+ && tar -xvf /tmp/plex/plex.tar -C /tmp/plex \
+ && tar -xvf /tmp/plex/package.tgz -C ${PLEX_PATH} \
+ && rm -rf /tmp/plex
 
 # Setup volumes
 #  - /config holds the server settings
