@@ -1,45 +1,43 @@
 # Plex Server for Raspberry Pi
 
-A simple way to run a plex media server in Docker on the Raspberry Pi 2 or 3.
+A simple way to run a plex media server in Docker on the Raspberry Pi.
 
-NOTE: The Pi 1 is NOT supported.
-
-## What's included
-
-- Plex media server
-- Samba server
+**NOTE: The Pi 1 is NOT supported.**
 
 ## Usage
 
-The easiest way to get started is to install [Hypriot OS](http://blog.hypriot.com/downloads) onto your SD card because it comes with docker & docker-compose pre-installed. It's also possible to use the [ARM version of Arch Linux](https://archlinuxarm.org/platforms/armv7/broadcom/raspberry-pi-2) but you'll need to install and configure these packages yourself.
+Install docker on your raspberry pi. There are numerous ways to do this but the easiest is to run:
 
-Assuming Hypriot OS, boot up the Pi, identify it on your network and SSH in with the following credentials: User: `pi` / password: `raspberry`
+    curl -sSL https://get.docker.com | sh
 
-Next, clone this repo and bring the services up using docker-compose:
+_Source: https://www.raspberrypi.org/blog/docker-comes-to-raspberry-pi_
 
-    git clone https://github.com/greensheep/plex-server-docker-rpi.git
-    cd plex-server-docker-rpi
-    docker-compose up -d
+Next, you'll need to create two local folders for the plex config and data volumes (I have both of these on an external HDD because they get very large). For example:
 
-Open the Plex web admin at `http://{ip address of Pi}:32400/web` to configure your server.
+    mkdir -p ~/media/plex/{config,data}
 
-A samba share called `plex-data` is also made available. It's currently unsecured so if you don't want to use it just start the plex service:
+Using the above folders, run the following to start plex:
 
-    docker-compose up -d plex
+    docker run \
+      -d \
+      --name plex \
+      --net host \
+      -p 32400:32400 \
+      --restart always \
+      --volume $(echo $HOME)/media/plex/config:/config \
+      --volume $(echo $HOME)/media/plex/data:/data \
+      greensheep/plex-server-docker-rpi:latest
 
-Otherwise, connect as a guest to: `smb://{ip address of Pi}/plex-data`.
+After around 30 seconds, the Plex web admin should be available at `http://{ip address of Pi}:32400/web`.
 
-## Media
+## Updating
 
-The plex server container uses docker volumes for the config and library directories. These are mapped to `/home/pi/plex/{config,data}`.
+Plex cannot be updated via the web ui. Run the following to download and run a new version:
 
-If you want to store your library on an external USB hard drive, mount your device into the `/home/pi/plex/data` directory.  For example:
-
-    mount /dev/sda1 /home/pi/plex/data
-
-If you already started your server, run:
-
-    docker restart plex samba-server
+    docker pull greensheep/plex-server-docker-rpi:latest
+    docker stop plex
+    docker rm -f plex
+    # `docker run ...` command from above!
 
 ## Transcoding
 
@@ -47,17 +45,17 @@ The Pi isn't powerful enough for transcoding but if you have media that will dir
 
 ## Playback failures
 
-If you experience problems with media that should direct play/stream to your client, and you mounted an external drive to `/home/pi/plex/data`, try setting the "Transcoder temporary directory" to a path on the mounted `/data` volume. For example, do:
+If you experience problems with media that should direct play/stream to your client, and you mounted an external drive for your media, try setting the "Transcoder temporary directory" to a path on the mounted `/data` volume. For example, do:
 
-    mkdir /home/pi/plex/data/transcoder
+    mkdir {PATH TO DATA DIR}/transcode
 
-Then add `/data/transcoder` to `Settings -> Server -> Transcoder -> Transcoder temporary directory` in the Plex admin.
-    
-Why? Most of the time your SD card will be realtively small 16/32Gb and can quickly run out of space. According to [this forum post](https://forums.plex.tv/discussion/206281/there-was-a-problem-playing-this-item), the lack of available space can cause transcoder problems.
+Then add `/data/transcode` to `Settings -> Server -> Transcoder -> Transcoder temporary directory` in the Plex admin.
+
+Why? Most of the time your SD card will be realtively small (16/32/64Gb, etc) and can quickly run out of space. According to [this forum post](https://forums.plex.tv/discussion/206281/there-was-a-problem-playing-this-item), the lack of available space can cause transcoder problems.
 
 ## Development
 
-To build the images yourself, use the `docker-compose.dev.yml` file:
+To build the images yourself, use the `docker-compose.yml` file:
 
-    docker-compose -f docker-compose.yml -f docker-compose.dev.yml build
-    docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+    docker-compose build
+    docker-compose up
