@@ -14,7 +14,7 @@ RUN apt update \
 
 # Download / extract Plex
 RUN PLEX_VERSION=$(cat ./VERSION) \
-  && wget --no-verbose -O /tmp/plex.tar https://downloads.plex.tv/plex-media-server/${PLEX_VERSION}/PlexMediaServer-${PLEX_VERSION}-arm7.spk \
+  && wget --no-verbose -O /tmp/plex.tar https://downloads.plex.tv/plex-media-server-new/${PLEX_VERSION}/synology/PlexMediaServer-${PLEX_VERSION}-armv7hf.spk \
   && tar -xf /tmp/plex.tar -C /tmp \
   && mkdir -p $PLEX_PATH \
   && tar -xf /tmp/package.tgz -C $PLEX_PATH
