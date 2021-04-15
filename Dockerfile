@@ -1,5 +1,7 @@
 FROM debian:buster-slim AS src
 
+ARG TARGETARCH
+
 ENV DEBIAN_FRONTEND="noninteractive" \
   PLEX_PATH=/usr/lib/plexmediaserver \
   PLEX_USER_NAME=plex \
@@ -7,14 +9,16 @@ ENV DEBIAN_FRONTEND="noninteractive" \
   PLEX_DATA_DIR=/data \
   PLEX_TRANSCODE_DIR=/transcode
 
-COPY VERSION .
-
 RUN apt-get update \
   && apt-get install -y wget ca-certificates
 
+COPY VERSION .
+COPY scripts/plex-url.sh .
+
 # Download / install Plex
 RUN PLEX_VERSION=$(cat ./VERSION) \
- && wget --no-verbose -O /tmp/plex.deb https://downloads.plex.tv/plex-media-server-new/${PLEX_VERSION}/debian/plexmediaserver_${PLEX_VERSION}_arm64.deb \
+ && PLEX_URL=$(./plex-url.sh $PLEX_VERSION $TARGETARCH) \
+ && wget --no-verbose -O /tmp/plex.deb $PLEX_URL \
  && dpkg -i /tmp/plex.deb \
  && rm -f /tmp/plexmediaserver.deb
 
@@ -22,7 +26,7 @@ RUN PLEX_VERSION=$(cat ./VERSION) \
 RUN useradd -U -d $PLEX_CONFIG_DIR -s /bin/false $PLEX_USER_NAME \
  && usermod -G users $PLEX_USER_NAME
 
-COPY entrypoint.sh .
+COPY scripts/entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
 ENTRYPOINT [ "/entrypoint.sh" ]

@@ -95,5 +95,5 @@ Be sure to set the "Transcoder temporary directory" setting to `/transcode` in t
 To build the images yourself clone this repository and run the following:
 
 ```sh
-sudo docker build -t plex-dev:latest .
+sudo docker buildx build -t plex-dev:latest --platform linux/arm,linux/arm64 .
 ```

@@ -47,6 +47,6 @@ fi
 rm -rf /config/Library/Application\ Support/Plex\ Media\ Server/plexmediaserver.pid
 
 # Start plex!
-echo '=> Starting plex...'
+echo '=> Starting plex... to load the UI go to: http://{ip address of Pi}:32400/web'
 echo
 su plex -s $PLEX_PATH/Plex\ Media\ Server
