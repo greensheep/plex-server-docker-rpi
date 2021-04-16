@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/greensheep/plex-server-docker-rpi.svg?branch=master)](https://travis-ci.org/greensheep/plex-server-docker-rpi)
-
 Docker images: https://hub.docker.com/r/greensheep/plex-server-docker-rpi/tags
 
 # Plex Server for Raspberry Pi
