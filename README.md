@@ -27,7 +27,6 @@ Using the above folders, run the following to start plex:
 ```sh
 docker run \
   -d \
-  --rm \
   --name plex \
   --net host \
   --restart always \
@@ -59,7 +58,6 @@ ls -n ~/media/plex/config
 ```sh
 docker run \
   -d \
-  --rm \
   --name plex \
   --net host \
   --restart always \
